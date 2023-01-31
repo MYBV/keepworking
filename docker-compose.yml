@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:3000"
+    restart: always
+    networks:
+      - ms_nestjs
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql:8
+    container_name: mysqldb
+    environment:
+      - MYSQL_DATABASE=keepworking
+      - MYSQL_ROOT_PASSWORD=BerSys29*
+      - MYSQL_USER=desarrollo
+      - MYSQL_PASSWORD=BerSys29*
+    command:
+      - --table_definition_cache=100
+      - --performance_schema=0
+      - --default-authentication-plugin=mysql_native_password
+      - --innodb_use_native_aio=0
+      - --
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - ms_nestjs
+networks:
+  ms_nestjs: 
+    driver: bridge
+volumes: 
+  mysql_data:

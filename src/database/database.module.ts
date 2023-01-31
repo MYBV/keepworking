@@ -1,39 +1,39 @@
+//#######################################################################
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BenefitEntity } from 'src/entities/benefit.entity';
-import { CompanyEntity } from 'src/entities/company.entity';
-import { ContractEntity } from 'src/entities/contract.entity';
-import { CountryEntity } from 'src/entities/country.entity';
-import { CurrencyEntity } from 'src/entities/currency.entity';
-import { JobEntity } from 'src/entities/job.entity';
-import { JobOfferEntity } from 'src/entities/joboffer.entity';
-import { JobOfferBenefitEntity } from 'src/entities/jobofferbenefit.entity';
-import { JobOfferCountryEntity } from 'src/entities/joboffercountry.entity';
-import { JobOfferTecnologyEntity } from 'src/entities/joboffertecnology.entity';
-import { LanguageEntity } from 'src/entities/language.entity';
-import { ModalityEntity } from 'src/entities/modality.entity';
-import { PersonEntity } from 'src/entities/person.entity';
-import { PersonLanguageEntity } from 'src/entities/personlanguage.entity';
-import { PersonTecnologyEntity } from 'src/entities/persontecnology.entity';
-import { ProfileEntity } from 'src/entities/profile.entity';
-import { TechnologyEntity } from 'src/entities/technology.entity';
-import { UserEntity } from 'src/entities/user.entity';
-import { Connection } from 'typeorm';
+import { BenefitModule } from 'src/benefit/benefit.module';
+import { CompanyModule } from 'src/company/company.module';
+import { ContractModule } from 'src/contract/contract.module';
+import { CountryModule } from 'src/country/country.module';
+import { CurrencyModule } from 'src/currency/currency.module';
+import { JobModule } from 'src/job/job.module';
+import { LanguageModule } from 'src/language/language.module';
+import { ModalityModule } from 'src/modality/modality.module';
+import { ProfileModule } from 'src/profile/profile.module';
+import { ProvinceModule } from 'src/province/province.module';
+import { TechnologyModule } from 'src/technology/technology.module';
+import { DataSource } from 'typeorm';
+import { DataSourceConfig } from './data.source';
+//#######################################################################
 
+//#######################################################################
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql', // type database
-      host: 'localhost', //server  database
-      port: 3306, // port the database
-      username: 'desarrollo', //user database
-      password: 'BerSys29*',
-      database: 'keepworking',
-      entities: [UserEntity, ProfileEntity, PersonEntity, CountryEntity, JobEntity, ModalityEntity, CurrencyEntity, BenefitEntity, LanguageEntity, CompanyEntity, TechnologyEntity, ContractEntity,PersonLanguageEntity, PersonTecnologyEntity, JobOfferEntity, JobOfferTecnologyEntity, JobOfferBenefitEntity, JobOfferCountryEntity],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot({ ...DataSourceConfig }),
+    ModalityModule,
+    ContractModule,
+    CurrencyModule,
+    JobModule,
+    TechnologyModule,
+    LanguageModule,
+    ProfileModule,
+    BenefitModule,
+    CompanyModule,
+    CountryModule,
+    ProvinceModule,
   ],
 })
 export class DatabaseModule {
-  constructor(private readonly connection: Connection) {}
+  constructor(private readonly dataSource: DataSource) {}
 }
+//#######################################################################
